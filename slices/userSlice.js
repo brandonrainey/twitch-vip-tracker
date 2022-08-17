@@ -1,33 +1,51 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
+let something = ''
+
+if (typeof window !== 'undefined') {
+  something = document?.location?.hash.slice(14, 44)
+}
+
 export const fetchData = createAsyncThunk('slices/fetchData', async () => {
-  const response = await axios.get('https://api.twitch.tv/helix/games/top', {
-        headers: {
-          'Client-Id': 'mz3oo6erk0hqgzs6o8ydh26c9m8u09',
-          Authorization: `Bearer maxfbvevlajdpefvtm5xngl479luox`,
-        }
-      })
-      return response.data
+  const response = await axios.get('https://api.twitch.tv/helix/users', {
+    headers: {
+      'Client-Id': 'mz3oo6erk0hqgzs6o8ydh26c9m8u09',
+      Authorization: `Bearer ${something}`,
+    },
+  })
+
+  const response2 = await axios.get(
+    `https://api.twitch.tv/helix/users/follows?from_id=${response.data.data[0].id}&first=100`,
+    {
+      headers: {
+        'Client-Id': 'mz3oo6erk0hqgzs6o8ydh26c9m8u09',
+        Authorization: `Bearer ${something}`,
+      },
+    }
+  )
+
+  return response2
 })
 
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    value: []
+    value: [],
+    followValue: [],
+    isFulfilled: false
   },
   reducers: {
-    setUserData: (state) => {
-      
-    }
+    setUserData: (state) => {},
   },
   extraReducers(builder) {
     builder.addCase(fetchData.fulfilled, (state, action) => {
-      
-      state.value = [...action.payload.data]
+      console.log(action)
+      state.value = action.payload.data
+      state.isFulfilled = true
     })
-  }
+  },
 })
 
 // Action creators are generated for each case reducer function
