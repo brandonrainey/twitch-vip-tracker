@@ -22,15 +22,12 @@ export default function Main({
   }
 
   function handleClick(follower) {
-    if(follower[1].data.length != 0) {
+    if (follower[1].data.length != 0) {
       setOpen(true)
     }
-    
 
     setCurrentFollower(follower)
   }
-
-  
 
   return (
     <div className="flex flex-wrap gap-2 sm:gap-4 justify-center mt-4">
@@ -51,11 +48,7 @@ export default function Main({
                   />
                   <div className="flex flex-col items-center justify-center w-full">
                     <p className="self-center w-full text-center font-semibold text-5xl text-white">
-                      {`${
-                        item[1].data.length != 0
-                          ? item[1].data.length
-                          : ''
-                      }`}
+                      {`${item[1].data.length != 0 ? item[1].data.length : ''}`}
                     </p>
                     <p className="font-semibold text-xl text-white w-32 text-center">{`${
                       item[1].data.length != 0
@@ -73,7 +66,7 @@ export default function Main({
             .sort(compare)
             .map((item, index) => (
               <div
-                className="flex flex-col sm:min-w-1/5  bg-blue-600 rounded hover:bg-blue-500"
+                className="flex flex-col sm:min-w-1/5  bg-purple-500 rounded hover:bg-blue-400"
                 key={index}
                 onClick={() => handleClick(item)}
               >
@@ -84,11 +77,7 @@ export default function Main({
                   />
                   <div className="flex flex-col items-center justify-center w-full">
                     <p className="self-center w-full text-center font-semibold text-5xl text-white">
-                      {`${
-                        item[1].data.length != 0
-                          ? item[1].data.length
-                          : ''
-                      }`}
+                      {`${item[1].data.length != 0 ? item[1].data.length : ''}`}
                     </p>
                     <p className="font-semibold text-xl text-white w-32 text-center">{`${
                       item[1].data.length != 0

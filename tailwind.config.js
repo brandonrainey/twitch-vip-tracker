@@ -7,7 +7,10 @@ module.exports = {
   theme: {
     extend: {
       spacing: {
-        'lightbox': '10%'
+        'lightbox': '14%'
+      },
+      scale: {
+        'custom': '3.00'
       }
     },
   },

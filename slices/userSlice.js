@@ -26,8 +26,13 @@ export const fetchData = createAsyncThunk('slices/fetchData', async () => {
     }
   )
 
-  return response2
+
+
+
+  return [response, response2]
 })
+
+
 
 export const userSlice = createSlice({
   name: 'user',
@@ -37,11 +42,14 @@ export const userSlice = createSlice({
     isFulfilled: false,
   },
   reducers: {
-    setUserData: (state) => {},
+    setUserData: (state) => {
+      
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchData.fulfilled, (state, action) => {
-      state.value = action.payload.data
+      state.value = action.payload[1].data
+      state.followValue = action.payload[0].data.data[0].login
       state.isFulfilled = true
     })
   },
