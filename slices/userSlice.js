@@ -40,6 +40,7 @@ export const userSlice = createSlice({
     value: [],
     followValue: [],
     isFulfilled: false,
+    userId: ''
   },
   reducers: {
     setUserData: (state) => {
@@ -51,6 +52,7 @@ export const userSlice = createSlice({
       state.value = action.payload[1].data
       state.followValue = action.payload[0].data.data[0].login
       state.isFulfilled = true
+      state.userId = action.payload[0].data.data[0].id
     })
   },
 })

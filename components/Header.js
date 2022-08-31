@@ -2,19 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSelector, useDispatch } from 'react-redux'
 
-export default function Header({ searchInput, handleChange }) {
+export default function Header({ searchInput, handleChange, something, getPages }) {
   const router = useRouter()
   const connectedUser = useSelector((state) => state.user.followValue)
+ 
 
-  const [something, setSomething] = useState(false)
+  
 
-  useEffect(() => {
-    if (document?.location?.hash) {
-      setSomething(true)
-    } else {
-      setSomething(false)
-    }
-  }, [])
+  
 
   return (
     <div className="flex items-center flex-col">
@@ -40,6 +35,7 @@ export default function Header({ searchInput, handleChange }) {
           onChange={handleChange}
           value={searchInput}
           placeholder="Search"
+          onFocus={() => getPages()}
         ></input>
       </form>
     </div>

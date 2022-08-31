@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import axios from 'axios'
 
 export default function Main({
   followerData,
@@ -10,7 +12,17 @@ export default function Main({
   setOpen,
   currentFollower,
   setCurrentFollower,
+  something,
+  paginationArray,
+  setPaginationArray,
 }) {
+  const user = useSelector((state) => state.user.value)
+
+  const userId = useSelector((state) => state.user.userId)
+  const connectedUser = useSelector((state) => state.user.followValue)
+
+  
+
   function compare(a, b) {
     if (a[0].display_name < b[0].display_name) {
       return -1
@@ -27,8 +39,19 @@ export default function Main({
     }
 
     setCurrentFollower(follower)
+    
   }
 
+  
+
+  // useEffect(() => {
+  //   if (user) {
+  //     getPages()
+  //   }
+  //   // //  setAllFollowers((allFollowers) => allFollowers.concat(paginationArray))
+  // }, [])
+
+  
   return (
     <div className="flex flex-wrap gap-2 sm:gap-4 justify-center mt-4">
       {searchInput != ''

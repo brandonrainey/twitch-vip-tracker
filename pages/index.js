@@ -15,6 +15,7 @@ export default function Home() {
 
   const connectedUser = useSelector((state) => state.user.followValue)
   const fulfilledStatus = useSelector((state) => state.user.isFulfilled)
+  const userId = useSelector((state) => state.user.userId)
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -32,17 +33,72 @@ export default function Home() {
 
   const [currentFollower, setCurrentFollower] = useState()
 
+  const [something, setSomething] = useState(false)
+
+  const [paginationArray, setPaginationArray] = useState()
+
+  const [allFollowers, setAllFollowers] = useState([])
+
+  useEffect(() => {
+    if (document?.location?.hash) {
+      setSomething(true)
+    } else {
+      setSomething(false)
+    }
+  }, [])
+
   function handleChange(e) {
     setSearchInput(e.target.value)
     const localSearch = e.target.value
     const copyArr = [...followerData]
-    console.log(localSearch)
     const filtered = copyArr.filter((item) => {
       return item[0].login.includes(localSearch)
     })
 
     setFilteredArray([...filtered])
   }
+
+  function getPages() {
+    if (paginationArray || user) {
+      axios
+        .get(
+          `https://api.twitch.tv/helix/users/follows?from_id=${userId}&first=100&after=${
+            paginationArray?.pagination?.cursor == undefined
+              ? user.pagination.cursor
+              : paginationArray.pagination.cursor
+          }`,
+          {
+            headers: {
+              'Client-Id': 'mz3oo6erk0hqgzs6o8ydh26c9m8u09',
+              Authorization: `Bearer ${document?.location?.hash.slice(14, 44)}`,
+            },
+          }
+        )
+        .then((res) => {
+          setPaginationArray(res.data)
+          return res.data
+        })
+        .then((res2) => {
+          if(allFollowers.length == 0) {
+            setAllFollowers((allFollowers) => [...allFollowers, ...followerData])
+          }
+          setAllFollowers((allFollowers) => [...allFollowers, ...res2.data])
+          return res2
+        })
+        .then((res3) => {
+          if (res3.pagination.cursor) {
+            console.log('go')
+            //getPages()
+          } else {
+           console.log('no more pages')
+           }
+        
+        })
+    }
+  }
+
+
+  //USE FETCH FROM BELOW TO CHANGE THE GET THE GETPAGES FOLLOWERS VODS, BEFORE SETTING TO ALLFOLLOWERS
 
   useEffect(() => {
     if (followerData.length == 0) {
@@ -85,10 +141,7 @@ export default function Home() {
                       ...followerData,
                       [res2, res.data],
                     ])
-                    // setFilteredArray((followerData) => [
-                    //   ...followerData,
-                    //   [res2, res.data],
-                    // ])
+                    
                   })
               })
           })
@@ -100,8 +153,10 @@ export default function Home() {
     dispatch(fetchData())
   }, [])
 
-  console.log(user)
 
+  
+
+  console.log(paginationArray)
   return (
     <div className="bg-gray-900 h-full flex flex-col relative overflow-x-hidden">
       <Head>
@@ -116,6 +171,8 @@ export default function Home() {
         searchInput={searchInput}
         setSearchInput={setSearchInput}
         handleChange={handleChange}
+        something={something}
+        getPages={getPages}
       />
       {open ? (
         <Vods
@@ -124,6 +181,7 @@ export default function Home() {
           setOpen={setOpen}
           currentFollower={currentFollower}
           setCurrentFollower={setCurrentFollower}
+          user={user}
         />
       ) : null}
 
@@ -137,6 +195,9 @@ export default function Home() {
         setOpen={setOpen}
         currentFollower={currentFollower}
         setCurrentFollower={setCurrentFollower}
+        something={something}
+        paginationArray={paginationArray}
+        setPaginationArray={setPaginationArray}
       />
     </div>
   )

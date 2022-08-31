@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+
 
 export default function Vods({ open, setOpen, currentFollower }) {
-  
+ 
 
+  const [page, setPage] = useState()
   const vodsLightbox = useRef()
 
   const closeOpenMenus = (e) => {
@@ -25,9 +27,9 @@ export default function Vods({ open, setOpen, currentFollower }) {
   }, [open])
 
   //SET UP PAGINATION COUNTER SO WHEN IF PAGINATION OBJECT EXISTS, THEN INCREASE COUNTER AND FETCH NEW LIST
-  useEffect(() => {
+  
 
-  })
+  
 
   return (
     <div className="flex  w-full h-full bg-black/50 absolute z-20">
