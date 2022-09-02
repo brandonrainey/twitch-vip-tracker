@@ -15,13 +15,12 @@ export default function Main({
   something,
   paginationArray,
   setPaginationArray,
+  allFollowers,
 }) {
   const user = useSelector((state) => state.user.value)
 
   const userId = useSelector((state) => state.user.userId)
   const connectedUser = useSelector((state) => state.user.followValue)
-
-  
 
   function compare(a, b) {
     if (a[0].display_name < b[0].display_name) {
@@ -39,19 +38,8 @@ export default function Main({
     }
 
     setCurrentFollower(follower)
-    
   }
 
-  
-
-  // useEffect(() => {
-  //   if (user) {
-  //     getPages()
-  //   }
-  //   // //  setAllFollowers((allFollowers) => allFollowers.concat(paginationArray))
-  // }, [])
-
-  
   return (
     <div className="flex flex-wrap gap-2 sm:gap-4 justify-center mt-4">
       {searchInput != ''
@@ -60,7 +48,7 @@ export default function Main({
             .sort(compare)
             .map((item, index) => (
               <div
-                className="flex flex-col sm:min-w-1/5  bg-blue-600 rounded hover:bg-blue-500"
+                className="flex flex-col sm:min-w-1/5  bg-purple-500 rounded hover:bg-blue-400"
                 key={index}
                 onClick={() => handleClick(item)}
               >
@@ -84,7 +72,7 @@ export default function Main({
                 <p className="font-bold  pl-2 text-lg">{item[0].login}</p>
               </div>
             ))
-        : followerData
+        : allFollowers
             .filter((item) => item)
             .sort(compare)
             .map((item, index) => (

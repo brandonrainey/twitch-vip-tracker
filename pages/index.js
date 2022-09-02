@@ -10,6 +10,7 @@ import Header from '../components/Header'
 import Main from '../components/Main'
 import Vods from '../components/Vods'
 
+
 export default function Home() {
   const user = useSelector((state) => state.user.value)
 
@@ -50,7 +51,7 @@ export default function Home() {
   function handleChange(e) {
     setSearchInput(e.target.value)
     const localSearch = e.target.value
-    const copyArr = [...followerData]
+    const copyArr = [...allFollowers]
     const filtered = copyArr.filter((item) => {
       return item[0].login.includes(localSearch)
     })
@@ -58,6 +59,7 @@ export default function Home() {
     setFilteredArray([...filtered])
   }
 
+  //gets pagination arrays of followers over 100
   function getPages() {
     if (paginationArray || user) {
       axios
@@ -79,30 +81,68 @@ export default function Home() {
           return res.data
         })
         .then((res2) => {
-          if(allFollowers.length == 0) {
-            setAllFollowers((allFollowers) => [...allFollowers, ...followerData])
-          }
-          setAllFollowers((allFollowers) => [...allFollowers, ...res2.data])
+          res2.data.map((item, index) => {
+            axios
+              .get(`https://api.twitch.tv/helix/users?login=${item.to_login}`, {
+                headers: {
+                  'Client-Id': 'mz3oo6erk0hqgzs6o8ydh26c9m8u09',
+                  Authorization: `Bearer ${document?.location?.hash.slice(
+                    14,
+                    44
+                  )}`,
+                },
+              })
+              .then((res3) => {
+                return res3.data.data[0]
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+              .then((res4) => {
+                axios
+                  .get(
+                    `https://api.twitch.tv/helix/videos?user_id=${res4?.id}&first=3&sort=time&type=archive`,
+                    {
+                      headers: {
+                        'Client-Id': 'mz3oo6erk0hqgzs6o8ydh26c9m8u09',
+                        Authorization: `Bearer ${document?.location?.hash.slice(
+                          14,
+                          44
+                        )}`,
+                      },
+                    }
+                  )
+                  .then((res5) => {
+        
+
+                    setAllFollowers((allFollowers) => [
+                      ...allFollowers,
+                      [res4, res5.data],
+                    ])
+                  })
+              })
+          })
+
           return res2
         })
-        .then((res3) => {
-          if (res3.pagination.cursor) {
+        .then((res6) => {
+          console.log(res6)
+          if (res6.pagination.cursor) {
             console.log('go')
             //getPages()
           } else {
-           console.log('no more pages')
-           }
-        
+            console.log('no more pages')
+            //  setAllFollowers((allFollowers) => [...followerData, ...allFollowers ])
+          }
         })
     }
   }
 
-
   //USE FETCH FROM BELOW TO CHANGE THE GET THE GETPAGES FOLLOWERS VODS, BEFORE SETTING TO ALLFOLLOWERS
 
   useEffect(() => {
-    if (followerData.length == 0) {
-      setFollowerData([])
+    if (allFollowers.length == 0) {
+      setAllFollowers([])
 
       fulfilledStatus
         ? user.data.map((item, index) => {
@@ -137,15 +177,17 @@ export default function Home() {
                     }
                   )
                   .then((res) => {
-                    setFollowerData((followerData) => [
-                      ...followerData,
+                    setAllFollowers((allFollowers) => [
+                      ...allFollowers,
                       [res2, res.data],
                     ])
-                    
                   })
               })
           })
         : null
+    } 
+    if (paginationArray?.length != 0 && fulfilledStatus && allFollowers.length == 0) {
+      getPages()
     }
   }, [fulfilledStatus])
 
@@ -153,10 +195,7 @@ export default function Home() {
     dispatch(fetchData())
   }, [])
 
-
   
-
-  console.log(paginationArray)
   return (
     <div className="bg-gray-900 h-full flex flex-col relative overflow-x-hidden">
       <Head>
@@ -198,6 +237,7 @@ export default function Home() {
         something={something}
         paginationArray={paginationArray}
         setPaginationArray={setPaginationArray}
+        allFollowers={allFollowers}
       />
     </div>
   )

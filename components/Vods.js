@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-
 export default function Vods({ open, setOpen, currentFollower }) {
- 
-
   const [page, setPage] = useState()
   const vodsLightbox = useRef()
 
@@ -27,23 +24,24 @@ export default function Vods({ open, setOpen, currentFollower }) {
   }, [open])
 
   //SET UP PAGINATION COUNTER SO WHEN IF PAGINATION OBJECT EXISTS, THEN INCREASE COUNTER AND FETCH NEW LIST
-  
-
-  
 
   return (
     <div className="flex  w-full h-full bg-black/50 absolute z-20">
       <div
-        className="flex flex-col bg-blue-200 h-5/6 w-3/4 fixed top-lightbox left-lightbox rounded -mt-14"
+        className="flex flex-col bg-blue-200 h-5/6 w-3/4 fixed top-lightbox left-lightbox rounded -mt-14 "
         ref={vodsLightbox}
       >
         <p className="w-full text-center text-6xl mt-10 mb-6 font-bold">
           {currentFollower[0].display_name}
         </p>
 
-        <div className="flex flex-wrap md:flex-row justify-center item-center gap-10 overflow-auto h-full">
+        <div
+          className={`flex flex-wrap md:flex-row justify-center item-center gap-10 overflow-auto ${
+            currentFollower[1].data.length == 3 ? 'h-full' : 'h-auto'
+          }`}
+        >
           {currentFollower[1].data.map((item) => (
-            <div className="flex flex-col flex-wrap items-center justify-center mt-auto">
+            <div className="flex flex-col flex-wrap items-center justify-end">
               <p className="w-80 self-center text-center font-semibold ">
                 {item.title}
               </p>
