@@ -41,13 +41,13 @@ export default function Vods({ open, setOpen, currentFollower }) {
           }`}
         >
           {currentFollower[1].data.map((item, index) => (
-            <div className="flex flex-col flex-wrap items-center justify-end" key={index}>
+            <div className="flex flex-col flex-wrap items-center justify-center " key={index}>
               <p className="w-80 self-center text-center font-semibold ">
                 {item.title}
               </p>
               <a href={item.url}>
                 <img
-                  className="max-h-60 mt-auto shadow-xl"
+                  className="max-h-60 mt-auto shadow-xl rounded"
                   src={`${
                     item.thumbnail_url
                       ? item.thumbnail_url
