@@ -1,26 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import axios from 'axios'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import EntryPage from './EntryPage'
 
 export default function Main({
-  followerData,
   filteredArray,
-  setFilteredArray,
   searchInput,
-  setSearchInput,
-  open,
   setOpen,
-  currentFollower,
   setCurrentFollower,
   something,
-  paginationArray,
-  setPaginationArray,
   allFollowers,
+  loading,
 }) {
   const user = useSelector((state) => state.user.value)
-
-  const userId = useSelector((state) => state.user.userId)
-  const connectedUser = useSelector((state) => state.user.followValue)
 
   function compare(a, b) {
     if (a[0].display_name < b[0].display_name) {
@@ -40,7 +31,7 @@ export default function Main({
     setCurrentFollower(follower)
   }
 
-  return (
+  return something ? (
     <div className="flex flex-wrap gap-2 sm:gap-4 justify-center mt-4">
       {searchInput != ''
         ? filteredArray
@@ -48,20 +39,24 @@ export default function Main({
             .sort(compare)
             .map((item, index) => (
               <div
-                className="flex flex-col sm:min-w-1/5  bg-purple-500 rounded hover:bg-blue-400"
+                className="flex flex-col w-5/6 sm:w-auto sm:min-w-1/5 bg-gradient-to-r from-purple-500 to-purple-800 rounded hover:bg-blue-400 "
                 key={index}
                 onClick={() => handleClick(item)}
               >
                 <div className="flex">
                   <img
                     className=" w-20 sm:w-24 rounded pl-1 pt-1 "
-                    src={`${item[0].profile_image_url}`}
+                    src={`${
+                      loading
+                        ? '/profile-default.png'
+                        : item[0].profile_image_url
+                    }`}
                   />
-                  <div className="flex flex-col items-center justify-center w-full">
-                    <p className="self-center w-full text-center font-semibold text-5xl text-white">
+                  <div className="flex sm:flex-col items-center justify-center w-full">
+                    <p className="self-center sm:w-full text-center font-semibold text-5xl text-white">
                       {`${item[1].data.length != 0 ? item[1].data.length : ''}`}
                     </p>
-                    <p className="font-semibold text-xl text-white w-32 text-center">{`${
+                    <p className="font-semibold text-xl text-white w-1/3 sm:w-32 text-center">{`${
                       item[1].data.length != 0
                         ? 'Recent VODs'
                         : 'No Recent VODs'
@@ -69,7 +64,7 @@ export default function Main({
                   </div>
                 </div>
 
-                <p className="font-bold  pl-2 text-lg">{item[0].login}</p>
+                <p className="font-bold  pl-2 text-lg tracking-wide">{item[0].login}</p>
               </div>
             ))
         : allFollowers
@@ -77,20 +72,24 @@ export default function Main({
             .sort(compare)
             .map((item, index) => (
               <div
-                className="flex flex-col sm:min-w-1/5  bg-purple-500 rounded hover:bg-blue-400"
+                className="flex flex-col w-5/6 sm:w-auto sm:min-w-1/5 bg-gradient-to-r from-purple-500 to-purple-800 rounded hover:bg-blue-400 "
                 key={index}
                 onClick={() => handleClick(item)}
               >
                 <div className="flex">
                   <img
                     className=" w-20 sm:w-24 rounded pl-1 pt-1 "
-                    src={`${item[0].profile_image_url}`}
+                    src={`${
+                      loading
+                        ? '/profile-default.png'
+                        : item[0].profile_image_url
+                    }`}
                   />
-                  <div className="flex flex-col items-center justify-center w-full">
-                    <p className="self-center w-full text-center font-semibold text-5xl text-white">
+                  <div className="flex sm:flex-col items-center justify-center w-full">
+                    <p className="self-center sm:w-full text-center font-semibold text-5xl text-white">
                       {`${item[1].data.length != 0 ? item[1].data.length : ''}`}
                     </p>
-                    <p className="font-semibold text-xl text-white w-32 text-center">{`${
+                    <p className="font-semibold text-xl text-white w-1/3 sm:w-32 text-center">{`${
                       item[1].data.length != 0
                         ? 'Recent VODs'
                         : 'No Recent VODs'
@@ -98,9 +97,11 @@ export default function Main({
                   </div>
                 </div>
 
-                <p className="font-bold  pl-2 text-lg">{item[0].login}</p>
+                <p className="font-bold  pl-2 text-lg tracking-wide">{item[0].login}</p>
               </div>
             ))}
     </div>
+  ) : (
+    <EntryPage />
   )
 }
