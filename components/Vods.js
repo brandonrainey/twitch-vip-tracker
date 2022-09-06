@@ -41,12 +41,12 @@ export default function Vods({ open, setOpen, currentFollower }) {
           }`}
         >
           {currentFollower[1].data.map((item, index) => (
-            <div className="flex flex-col">
+            <div className="flex flex-col" key={index}>
               <div className="h-full"></div>
 
               <div
                 className="flex flex-col flex-wrap items-center justify-center "
-                key={index}
+                
               >
                 <p className="w-80 self-center text-center font-semibold ">
                   {item.title}
