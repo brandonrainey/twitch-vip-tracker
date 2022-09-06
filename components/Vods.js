@@ -31,7 +31,7 @@ export default function Vods({ open, setOpen, currentFollower }) {
         className="flex flex-col bg-blue-200 h-5/6 xl:h-auto w-3/4 fixed top-lightbox left-lightbox2 rounded -mt-14 pb-4"
         ref={vodsLightbox}
       >
-        <p className="w-full text-center text-6xl mt-6 mb-4 font-bold truncate h-20">
+        <p className="w-full text-center text-5xl sm:text-6xl mt-6 mb-4 font-bold truncate h-20">
           {currentFollower[0].display_name}
         </p>
 
@@ -45,10 +45,10 @@ export default function Vods({ open, setOpen, currentFollower }) {
               <div className="h-full"></div>
 
               <div
-                className="flex flex-col flex-wrap items-center justify-center "
+                className="flex flex-col flex-wrap items-center justify-center px-1"
                 
               >
-                <p className="w-80 self-center text-center font-semibold ">
+                <p className="md:w-80 w-auto self-center text-center font-semibold  sm:p-0">
                   {item.title}
                 </p>
                 <a href={item.url}>
