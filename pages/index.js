@@ -50,7 +50,7 @@ export default function Home() {
     const localSearch = e.target.value
     const copyArr = [...allFollowers]
     const filtered = copyArr.filter((item) => {
-      return item[0].login.includes(localSearch)
+      return item[0].login.includes(localSearch.toLowerCase())
     })
 
     setFilteredArray([...filtered])
