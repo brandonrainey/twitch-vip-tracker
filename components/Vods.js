@@ -4,6 +4,8 @@ export default function Vods({ open, setOpen, currentFollower }) {
   const [page, setPage] = useState()
   const vodsLightbox = useRef()
 
+  const bgImage = currentFollower[0].offline_image_url
+
   const closeOpenMenus = (e) => {
     if (open && !vodsLightbox.current.contains(e.target)) {
       setOpen(false)
@@ -23,12 +25,13 @@ export default function Vods({ open, setOpen, currentFollower }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
-  
+  // console.log(currentFollower[0].offline_image_url)
+  console.log(bgImage)
 
   return (
     <div className="flex  w-full h-full bg-black/50 absolute z-20">
       <div
-        className="flex flex-col bg-blue-200 h-5/6 xl:h-auto w-3/4 fixed top-lightbox left-lightbox2 rounded -mt-14 pb-4"
+        className={`flex flex-col bg-blue-200 h-5/6 xl:h-auto w-3/4 fixed top-lightbox left-lightbox2 rounded -mt-14 pb-4`}
         ref={vodsLightbox}
       >
         <p className="w-full text-center text-5xl sm:text-6xl mt-6 mb-4 font-bold truncate h-20">
@@ -58,6 +61,7 @@ export default function Vods({ open, setOpen, currentFollower }) {
                             .replace('%{height}', '1080')
                         : '/no-thumbnail.png'
                     }`}
+                    alt='vod thumbnail'
                   />
                 </a>
                 <div className="text-center font-semibold">
