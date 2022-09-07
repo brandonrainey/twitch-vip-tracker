@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
+
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 let something = ''

@@ -7,7 +7,7 @@ export default function Main({
   searchInput,
   setOpen,
   setCurrentFollower,
-  something,
+  token,
   allFollowers,
   loading,
 }) {
@@ -31,7 +31,7 @@ export default function Main({
     setCurrentFollower(follower)
   }
 
-  return something ? (
+  return token ? (
     <div className="flex flex-wrap gap-2 sm:gap-4 justify-center mt-4">
       {searchInput != ''
         ? filteredArray
@@ -39,7 +39,7 @@ export default function Main({
             .sort(compare)
             .map((item, index) => (
               <div
-                className="flex flex-col w-5/6 sm:w-auto sm:min-w-1/5 bg-gradient-to-r from-purple-500 to-purple-800 rounded hover:bg-blue-400 "
+                className="flex flex-col w-5/6 sm:w-auto sm:min-w-1/5 bg-gradient-to-r from-purple-500 to-purple-800 rounded hover:from-blue-400 hover:to-blue-700 "
                 key={index}
                 onClick={() => handleClick(item)}
               >
@@ -72,7 +72,7 @@ export default function Main({
             .sort(compare)
             .map((item, index) => (
               <div
-                className="flex flex-col w-5/6 sm:w-auto sm:min-w-1/5 bg-gradient-to-r from-purple-500 to-purple-800 rounded hover:bg-blue-400 "
+                className="flex flex-col w-5/6 sm:w-auto sm:min-w-1/5 rounded bg-gradient-to-r from-purple-500 to-purple-800 hover:from-blue-400 hover:to-blue-700"
                 key={index}
                 onClick={() => handleClick(item)}
               >

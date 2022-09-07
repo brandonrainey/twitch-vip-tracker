@@ -5,38 +5,37 @@ import { useSelector } from 'react-redux'
 export default function Header({
   searchInput,
   handleChange,
-  something,
-  setSomething,
+  token,
+  setToken,
 }) {
   const router = useRouter()
   const connectedUser = useSelector((state) => state.user.followValue)
 
   const [connected, setConnected] = useState(false)
 
-  const [buttonText, setButtontext] = useState(something ? connectedUser : 'Connect to Twitch')
+  const [buttonText, setButtontext] = useState(token ? connectedUser : 'Connect to Twitch')
 
+  //checks for connection, then either connects for disconnects
   function handleClick() {
 
     if (connected) {
       setConnected(false)
-      setSomething(false)
+      setToken(false)
       router.push('/')
-
-      
-      
     }
     if (!connected) {
       setConnected(true)
       router.push(
-        'https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=mz3oo6erk0hqgzs6o8ydh26c9m8u09&redirect_uri=https://mytwitchfollows.netlify.app/&scope=user%3Aread%3Afollows&state=c3ab8aa609ea11e793ae92361f002671'
+        'https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=mz3oo6erk0hqgzs6o8ydh26c9m8u09&redirect_uri=http://localhost:3000/&scope=user%3Aread%3Afollows&state=c3ab8aa609ea11e793ae92361f002671'
       )
       
     }
     
   }
 
+  //shows connected user in button
   useEffect(() => {
-    if (something) {
+    if (token) {
       setConnected(true)
       setButtontext(connectedUser)
     }
@@ -60,7 +59,7 @@ export default function Header({
           }
           
           onMouseOver={() => setButtontext(connected ? 'Disconnect' : 'Connect to Twitch')}
-          onMouseLeave={() => setButtontext(something ? connectedUser : 'Connect to Twitch')}
+          onMouseLeave={() => setButtontext(token ? connectedUser : 'Connect to Twitch')}
         >
           {buttonText}
         </button>

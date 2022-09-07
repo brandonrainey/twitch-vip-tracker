@@ -23,7 +23,7 @@ export default function Vods({ open, setOpen, currentFollower }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
-  //SET UP PAGINATION COUNTER SO WHEN IF PAGINATION OBJECT EXISTS, THEN INCREASE COUNTER AND FETCH NEW LIST 'text2': '1%'
+  
 
   return (
     <div className="flex  w-full h-full bg-black/50 absolute z-20">
@@ -44,10 +44,7 @@ export default function Vods({ open, setOpen, currentFollower }) {
             <div className="flex flex-col" key={index}>
               <div className="h-full"></div>
 
-              <div
-                className="flex flex-col flex-wrap items-center justify-center px-1"
-                
-              >
+              <div className="flex flex-col flex-wrap items-center justify-center px-1">
                 <p className="md:w-80 w-auto self-center text-center font-semibold  sm:p-0">
                   {item.title}
                 </p>
