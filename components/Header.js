@@ -60,7 +60,7 @@ export default function Header({
           Twitch Follow Tracker
         </p>
         <button
-          className="bg-purple-600 hover:bg-purple-400  px-4 rounded-2xl h-8 text-white font-bold text-center ml-auto mr-4 cursor-pointer text-lg tracking-wide "
+          className="bg-purple-600 hover:bg-blue-500  px-4 rounded-2xl h-8 text-white font-bold text-center ml-auto mr-4 cursor-pointer text-lg tracking-wide "
           onClick={() =>
             handleClick()
           }
