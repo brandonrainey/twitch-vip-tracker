@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
+import useMediaQuery from '../hooks/useMediaQuery'
 
 export default function Header({
   searchInput,
@@ -14,6 +15,8 @@ export default function Header({
   const [connected, setConnected] = useState(false)
 
   const [buttonText, setButtontext] = useState(token ? connectedUser : 'Connect to Twitch')
+
+  const isMobile = useMediaQuery('(max-width: 655px)')
 
   //checks for connection, then either connects for disconnects
   function handleClick() {
@@ -41,6 +44,10 @@ export default function Header({
     }
   }, [connectedUser])
 
+  useEffect(() => {
+    isMobile ? setButtontext('Connect') : setButtontext('Connect to Twitch')
+  }, [isMobile])
+
   
 
   return (
@@ -53,7 +60,7 @@ export default function Header({
           Twitch Follow Tracker
         </p>
         <button
-          className="bg-purple-600   px-4 rounded-2xl h-8 text-white font-bold text-center ml-auto mr-4 cursor-pointer text-lg tracking-wide "
+          className="bg-purple-600 hover:bg-purple-400  px-4 rounded-2xl h-8 text-white font-bold text-center ml-auto mr-4 cursor-pointer text-lg tracking-wide "
           onClick={() =>
             handleClick()
           }
