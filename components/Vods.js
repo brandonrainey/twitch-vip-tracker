@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 export default function Vods({ open, setOpen, currentFollower }) {
   const [page, setPage] = useState()
+
   const vodsLightbox = useRef()
 
   const bgImage = currentFollower[0].offline_image_url
@@ -24,9 +25,6 @@ export default function Vods({ open, setOpen, currentFollower }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
-
-  // console.log(currentFollower[0].offline_image_url)
-  console.log(bgImage)
 
   return (
     <div className="flex  w-full h-full bg-black/50 absolute z-20">

@@ -10,12 +10,12 @@ import Vods from '../components/Vods'
 export default function Home() {
   const user = useSelector((state) => state.user.value)
 
-  
   const fulfilledStatus = useSelector((state) => state.user.isFulfilled)
+
   const userId = useSelector((state) => state.user.userId)
+
   const dispatch = useDispatch()
   
-
   const [followerData, setFollowerData] = useState([])
 
   const [open, setOpen] = useState(false)
@@ -207,7 +207,7 @@ export default function Home() {
         setSearchInput={setSearchInput}
         handleChange={handleChange}
         token={token}
-        settoken={setToken}
+        setToken={setToken}
         getPages={getPages}
       />
       {open ? (

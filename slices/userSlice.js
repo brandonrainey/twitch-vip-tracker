@@ -2,17 +2,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-let something = ''
+let token = ''
 
 if (typeof window !== 'undefined') {
-  something = document?.location?.hash.slice(14, 44)
+  token = document?.location?.hash.slice(14, 44)
 }
 
 export const fetchData = createAsyncThunk('slices/fetchData', async () => {
   const response = await axios.get('https://api.twitch.tv/helix/users', {
     headers: {
       'Client-Id': 'mz3oo6erk0hqgzs6o8ydh26c9m8u09',
-      Authorization: `Bearer ${something}`,
+      Authorization: `Bearer ${token}`,
     },
   })
 
@@ -21,7 +21,7 @@ export const fetchData = createAsyncThunk('slices/fetchData', async () => {
     {
       headers: {
         'Client-Id': 'mz3oo6erk0hqgzs6o8ydh26c9m8u09',
-        Authorization: `Bearer ${something}`,
+        Authorization: `Bearer ${token}`,
       },
     }
   )
