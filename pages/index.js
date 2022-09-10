@@ -57,7 +57,7 @@ export default function Home() {
 
   //gets pagination arrays of followers over 100
   function getPages() {
-    setLoading(true)
+    
     if (paginationArray || user) {
       axios
         .get(
@@ -128,16 +128,18 @@ export default function Home() {
           }
         })
     }
-    setLoading(false)
+    
   }
 
   //api call for followers after user is connected
   useEffect(() => {
+    
     if (allFollowers.length == 0) {
       setAllFollowers([])
-
+      
       fulfilledStatus
         ? user.data.map((item, index) => {
+          
             axios
               .get(`https://api.twitch.tv/helix/users?login=${item.to_login}`, {
                 headers: {
@@ -149,6 +151,7 @@ export default function Home() {
                 },
               })
               .then((res) => {
+
                 return res.data.data[0]
               })
               .catch((error) => {
@@ -173,6 +176,7 @@ export default function Home() {
                       ...allFollowers,
                       [res2, res.data],
                     ])
+                    
                   })
               })
           })
@@ -185,12 +189,15 @@ export default function Home() {
     ) {
       getPages()
     }
+    
   }, [fulfilledStatus])
 
   //
   useEffect(() => {
     dispatch(fetchData())
   }, [])
+
+  
 
   return (
     <div className="bg-gray-900 h-full flex flex-col relative overflow-hidden">
