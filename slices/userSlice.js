@@ -26,7 +26,7 @@ export const fetchData = createAsyncThunk('slices/fetchData', async () => {
     }
   )
 
-  return [response, response2]
+  return [response.data, response2.data]
 })
 
 export const userSlice = createSlice({
@@ -42,10 +42,10 @@ export const userSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(fetchData.fulfilled, (state, action) => {
-      state.value = action.payload[1].data
-      state.followValue = action.payload[0].data.data[0].login
+      state.value = action.payload[1]
+      state.followValue = action.payload[0].data[0].login
       state.isFulfilled = true
-      state.userId = action.payload[0].data.data[0].id
+      state.userId = action.payload[0].data[0].id
     })
   },
 })

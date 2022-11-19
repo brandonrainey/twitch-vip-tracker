@@ -30,7 +30,7 @@ export default function Header({
     if (!connected) {
       setConnected(true)
       router.push(
-        'https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=mz3oo6erk0hqgzs6o8ydh26c9m8u09&redirect_uri=https://mytwitchfollows.netlify.app/&scope=user%3Aread%3Afollows&state=c3ab8aa609ea11e793ae92361f002671'
+        'https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=mz3oo6erk0hqgzs6o8ydh26c9m8u09&redirect_uri=http://localhost:3000/&scope=user%3Aread%3Afollows&state=c3ab8aa609ea11e793ae92361f002671'
       )
     }
   }
@@ -50,7 +50,7 @@ export default function Header({
   
 
   return (
-    <div className="flex items-center flex-col">
+    <header className="flex items-center flex-col">
       <div className="flex items-center w-full">
         <p
           className="text-5xl font-bold pl-4 pt-4 pb-4 text-white cursor-pointer"
@@ -79,6 +79,6 @@ export default function Header({
           // onFocus={() => getPages()}
         ></input>
       </form>
-    </div>
+    </header>
   )
 }

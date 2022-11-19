@@ -10,6 +10,8 @@ export default function Main({
   token,
   allFollowers,
   loading,
+  page,
+
 }) {
   const user = useSelector((state) => state.user.value)
 
@@ -31,7 +33,7 @@ export default function Main({
     setCurrentFollower(follower)
   }
 
-  console.log(loading)
+  
 
   return token ? (
     <div className="flex flex-wrap gap-2 sm:gap-4 justify-center mt-4">

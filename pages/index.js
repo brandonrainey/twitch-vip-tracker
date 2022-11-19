@@ -6,6 +6,7 @@ import { fetchData } from '../slices/userSlice'
 import Header from '../components/Header'
 import Main from '../components/Main'
 import Vods from '../components/Vods'
+import Pagination from '../components/Pagination'
 
 export default function Home() {
   const user = useSelector((state) => state.user.value)
@@ -28,11 +29,20 @@ export default function Home() {
 
   const [token, setToken] = useState(false)
 
-  const [paginationArray, setPaginationArray] = useState()
+  const [paginationArray, setPaginationArray] = useState([]) ///////////////////////////////
 
-  const [allFollowers, setAllFollowers] = useState([])
+  const [allFollowers, setAllFollowers] = useState([[]])
 
   const [loading, setLoading] = useState(false)
+
+  const [page, setPage] = useState()
+
+  const [arrayIndex, setArrayIndex] = useState(0)
+
+  const [tempArr, setTempArr] = useState([])
+
+  
+
 
   //checks for auth toekn in url
   useEffect(() => {
@@ -42,6 +52,109 @@ export default function Home() {
       setToken(false)
     }
   }, [])
+
+  function handleNextPage() {
+    setPage(allFollowers?.pagination?.cursor)
+    setArrayIndex(arrayIndex + 1)
+    setPaginationArray((paginationArray) => [...paginationArray, allFollowers])
+    if (allFollowers || user) {
+      axios
+        .get(
+          `https://api.twitch.tv/helix/users/follows?from_id=${userId}&first=100&after=${
+            page == undefined
+              ? user.pagination.cursor
+              : page
+          }`,
+          {
+            headers: {
+              'Client-Id': 'mz3oo6erk0hqgzs6o8ydh26c9m8u09',
+              Authorization: `Bearer ${document?.location?.hash.slice(14, 44)}`,
+            },
+          }
+        )
+        .then((res) => {
+         setAllFollowers([])
+          return res.data
+        })
+        .then((res2) => {
+          res2.data.map((item, index) => {
+            axios
+              .get(`https://api.twitch.tv/helix/users?login=${item.to_login}`, {
+                headers: {
+                  'Client-Id': 'mz3oo6erk0hqgzs6o8ydh26c9m8u09',
+                  Authorization: `Bearer ${document?.location?.hash.slice(
+                    14,
+                    44
+                  )}`,
+                },
+              })
+              .then((res3) => {
+                
+                return res3.data.data[0]
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+              .then((res4) => {
+                axios
+                  .get(
+                    `https://api.twitch.tv/helix/videos?user_id=${res4?.id}&first=3&sort=time&type=archive`,
+                    {
+                      headers: {
+                        'Client-Id': 'mz3oo6erk0hqgzs6o8ydh26c9m8u09',
+                        Authorization: `Bearer ${document?.location?.hash.slice(
+                          14,
+                          44
+                        )}`,
+                      },
+                    }
+                  )
+                  .then((res5) => {
+                    
+                    // let copy = [...paginationArray]
+                    // setPaginationArray([...copy, [res4, res5.data]])
+
+
+                    // console.log(paginationArray)
+                    // setPaginationArray((paginationArray) => [
+                    //   ...paginationArray, [res4, res5.data]
+                    // ])
+
+                    setTempArr((tempArr) => [
+                      ...tempArr,
+                      [res4, res5.data]
+                    ])
+                    
+                    
+
+                    setAllFollowers((allFollowers) => [
+                      ...allFollowers,
+                      [res4, res5.data],
+                    ])
+                  })
+              })
+          })
+
+          return res2
+        })
+        // .then((res6) => {
+          
+        //   if (res6.pagination.cursor) {
+        //   } else {
+        //     console.log('no more pages')
+        //   }
+        // })
+
+        
+    }
+    
+  }
+
+  function handlePreviousPage() {
+    console.log(page)
+    
+    
+  }
 
   //search filtering function
   function handleChange(e) {
@@ -90,6 +203,7 @@ export default function Home() {
                 },
               })
               .then((res3) => {
+                
                 return res3.data.data[0]
               })
               .catch((error) => {
@@ -110,10 +224,19 @@ export default function Home() {
                     }
                   )
                   .then((res5) => {
-                    setAllFollowers((allFollowers) => [
-                      ...allFollowers,
-                      [res4, res5.data],
-                    ])
+                    // let copy = [...paginationArray]
+                    // setPaginationArray([...copy, [res4, res5.data]])
+
+
+                    // console.log(paginationArray)
+                    // setPaginationArray((paginationArray) => [
+                    //   ...paginationArray, [res4, res5.data]
+                    // ])
+
+                    // setAllFollowers((allFollowers) => [
+                    //   ...allFollowers,
+                    //   [res4, res5.data],
+                    // ])
                   })
               })
           })
@@ -121,7 +244,7 @@ export default function Home() {
           return res2
         })
         .then((res6) => {
-          console.log(res6)
+          
           if (res6.pagination.cursor) {
           } else {
             console.log('no more pages')
@@ -172,6 +295,9 @@ export default function Home() {
                     }
                   )
                   .then((res) => {
+                    let arr = [[...allFollowers]]
+                    arr[0].push([res2, res.data])
+                    setTempArr([[...arr]])
                     setAllFollowers((allFollowers) => [
                       ...allFollowers,
                       [res2, res.data],
@@ -182,13 +308,15 @@ export default function Home() {
           })
         : null
     }
-    if (
-      paginationArray?.length != 0 &&
-      fulfilledStatus &&
-      allFollowers.length == 0
-    ) {
-      getPages()
-    }
+    
+    // if (
+    //   // paginationArray?.length != 0 &&
+    //   fulfilledStatus &&
+    //   allFollowers.length == 0
+    // ) {
+    //   console.log('runs')
+    //   getPages()
+    // }
     
   }, [fulfilledStatus])
 
@@ -198,6 +326,7 @@ export default function Home() {
   }, [])
 
   
+console.log(allFollowers)
 
   return (
     <div className="bg-gray-900 h-full flex flex-col relative overflow-hidden">
@@ -245,7 +374,10 @@ export default function Home() {
         setPaginationArray={setPaginationArray}
         allFollowers={allFollowers}
         loading={loading}
+        page={page}
+
       />
+      <Pagination handleNextPage={handleNextPage} handlePreviousPage={handlePreviousPage} />
     </div>
   )
 }
