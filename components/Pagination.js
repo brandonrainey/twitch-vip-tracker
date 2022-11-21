@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function Pagination({ page, handleNextPage, loading }) {
-  return (
+export default function Pagination({ page, handleNextPage, loading, token }) {
+  return token ? (
     <div className="w-full flex justify-center my-6">
       <div
         className={`flex ${
@@ -16,5 +16,5 @@ export default function Pagination({ page, handleNextPage, loading }) {
         </button>
       </div>
     </div>
-  )
+  ) : null
 }

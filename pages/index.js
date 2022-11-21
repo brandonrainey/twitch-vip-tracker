@@ -133,6 +133,7 @@ export default function Home() {
 
   //api call for followers after user is connected
   useEffect(() => {
+    setLoading(true)
     if (allFollowers.length == 0) {
       setAllFollowers([])
 
@@ -178,6 +179,7 @@ export default function Home() {
           })
         : null
     }
+    setLoading(false)
   }, [fulfilledStatus])
 
   
@@ -206,6 +208,7 @@ export default function Home() {
         handleNextPage={handleNextPage}
         page={page}
         loading={loading}
+        token={token}
       />
       {open ? (
         <Vods
