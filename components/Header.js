@@ -3,25 +3,21 @@ import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import useMediaQuery from '../hooks/useMediaQuery'
 
-export default function Header({
-  searchInput,
-  handleChange,
-  token,
-  setToken,
-}) {
+export default function Header({ searchInput, handleChange, token, setToken }) {
   const router = useRouter()
 
   const connectedUser = useSelector((state) => state.user.followValue)
 
   const [connected, setConnected] = useState(false)
 
-  const [buttonText, setButtontext] = useState(token ? connectedUser : 'Connect to Twitch')
+  const [buttonText, setButtontext] = useState(
+    token ? connectedUser : 'Connect to Twitch'
+  )
 
   const isMobile = useMediaQuery('(max-width: 655px)')
 
   //checks for connection, then either connects for disconnects
   function handleClick() {
-
     if (connected) {
       setConnected(false)
       setToken(false)
@@ -30,7 +26,7 @@ export default function Header({
     if (!connected) {
       setConnected(true)
       router.push(
-        'https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=mz3oo6erk0hqgzs6o8ydh26c9m8u09&redirect_uri=http://localhost:3000/&scope=user%3Aread%3Afollows&state=c3ab8aa609ea11e793ae92361f002671'
+        'https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=mz3oo6erk0hqgzs6o8ydh26c9m8u09&redirect_uri=https://mytwitchfollows.netlify.app/&scope=user%3Aread%3Afollows&state=c3ab8aa609ea11e793ae92361f002671'
       )
     }
   }
@@ -47,8 +43,6 @@ export default function Header({
     isMobile ? setButtontext('Connect') : setButtontext('Connect to Twitch')
   }, [isMobile])
 
-  
-
   return (
     <header className="flex items-center flex-col">
       <div className="flex items-center w-full">
@@ -60,12 +54,13 @@ export default function Header({
         </p>
         <button
           className="bg-purple-600 hover:bg-blue-500  px-4 rounded-2xl h-8 text-white font-bold text-center ml-auto mr-4 cursor-pointer text-lg tracking-wide "
-          onClick={() =>
-            handleClick()
+          onClick={() => handleClick()}
+          onMouseOver={() =>
+            setButtontext(connected ? 'Disconnect' : 'Connect to Twitch')
           }
-          
-          onMouseOver={() => setButtontext(connected ? 'Disconnect' : 'Connect to Twitch')}
-          onMouseLeave={() => setButtontext(token ? connectedUser : 'Connect to Twitch')}
+          onMouseLeave={() =>
+            setButtontext(token ? connectedUser : 'Connect to Twitch')
+          }
         >
           {buttonText}
         </button>

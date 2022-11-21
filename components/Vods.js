@@ -29,7 +29,7 @@ export default function Vods({ open, setOpen, currentFollower, loading }) {
   return (
     <div className="flex  w-full h-full bg-black/50 absolute z-20">
       <div
-        className={`flex flex-col bg-blue-200 h-5/6 xl:h-auto  sm:w-3/4 fixed top-lightbox sm:left-lightbox2 rounded -mt-14 pb-4`}
+        className={`flex flex-col bg-[#c7c6ff] h-5/6 xl:h-auto  sm:w-3/4 fixed top-lightbox sm:left-lightbox2 rounded -mt-14 pb-4`}
         ref={vodsLightbox}
       >
         <p className="w-full text-center text-5xl sm:text-6xl mt-6 mb-4 font-bold truncate h-20">
@@ -59,7 +59,7 @@ export default function Vods({ open, setOpen, currentFollower, loading }) {
                             .replace('%{height}', '1080')
                         : '/no-thumbnail.png'
                     }`}
-                    alt='vod thumbnail'
+                    alt="vod thumbnail"
                   />
                 </a>
                 <div className="text-center font-semibold">

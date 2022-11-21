@@ -10,8 +10,6 @@ export default function Main({
   token,
   allFollowers,
   loading,
-  page,
-
 }) {
   const user = useSelector((state) => state.user.value)
 
@@ -33,8 +31,6 @@ export default function Main({
     setCurrentFollower(follower)
   }
 
-  
-
   return token ? (
     <div className="flex flex-wrap gap-2 sm:gap-4 justify-center mt-4">
       {searchInput != ''
@@ -55,7 +51,7 @@ export default function Main({
                         ? '/profile-default.png'
                         : item[0].profile_image_url
                     }`}
-                    alt='profile image'
+                    alt="profile image"
                   />
                   <div className="flex sm:flex-col items-center justify-center w-full">
                     <p className="self-center sm:w-full text-center font-semibold text-5xl text-white">
@@ -69,7 +65,9 @@ export default function Main({
                   </div>
                 </div>
 
-                <p className="font-bold  pl-2 text-lg tracking-wide">{item[0].login}</p>
+                <p className="font-bold  pl-2 text-lg tracking-wide">
+                  {item[0].login}
+                </p>
               </div>
             ))
         : allFollowers
@@ -89,7 +87,7 @@ export default function Main({
                         ? '/profile-default.png'
                         : item[0].profile_image_url
                     }`}
-                    alt='profile image'
+                    alt="profile image"
                   />
                   <div className="flex sm:flex-col items-center justify-center w-full">
                     <p className="self-center sm:w-full text-center font-semibold text-5xl text-white">
@@ -103,7 +101,9 @@ export default function Main({
                   </div>
                 </div>
 
-                <p className="font-bold  pl-2 text-lg tracking-wide">{item[0].login}</p>
+                <p className="font-bold  pl-2 text-lg tracking-wide">
+                  {item[0].login}
+                </p>
               </div>
             ))}
     </div>
